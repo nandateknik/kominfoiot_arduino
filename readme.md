@@ -15,6 +15,11 @@ Sebuah project yang dikerjakan untuk kebutuhan iot di lingkungan Dinas Kominfo d
 - **HTTP GET JSON** Kontroling lampu dari kondisi di Dashboard API IOT
 
 ### Pin Reference Nodemcu :
+
+![alt text](https://github.com/nandateknik/kominfoiot_arduino/blob/master/img/nodemcu.webp?raw=true)
+
+
+
 Untuk penggunaan pembacaan pin Cek tabel berikut ini :
 
 | Nama         | Pin Output | Pin Input  |
