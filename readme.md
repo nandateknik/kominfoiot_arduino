@@ -5,29 +5,90 @@
 <a href="#"><img src="https://img.shields.io/badge/BY-NANDADEV-blue"></a>
 </p>
 
-# APLIKASI RENCANA KERJA
+# NODEMCU ESP8266 ARDUINO
 
 
-Aplikasi rencana kerja yang saya buat untuk kebutuhan di PT. Grahamakmur Ciptapratama Banyuwangi. Adapun aplikasi ini saya beri nama mission. saya ciptakan menggunakan bahasa php dengan framework codeigniter 3. adapun fitur yang disediakan antara lain :
+Sebuah project yang dikerjakan untuk kebutuhan iot di lingkungan Dinas Kominfo dan Persandian Kabupaten Banyuwangi.
 
 ### Fitur Aplikasi :
-- **Dashboard** untuk pengecekan dan pemantauan permintaan pekerjaan maupun rencana kerja
-- **input permintaan kerja** oleh divisi lain
-- **input daftar rencana kerja** oleh divisi teknik
-- **user** untuk pengaturan dan pengaktifan akun maupun edit role user
+- **HTTP POST JSON** Digunakan untuk melakukan post JSON dari web untuk cek kondisi lampu ON atau OFF
+- **HTTP GET JSON** Kontroling lampu dari kondisi di Dashboard API IOT
 
-### Role User :
-- **Super Admin** berfungsi sebagai pengontrol seluruh aplikasi
-- **Admin Teknik** memiliki fungsi sebagai input rencana kerja
-- **Admin Divisi Lain** memiliki fungsi sebagai input permintaan perbaikan
-- **User Teknik** sebagai pelaksana pekerjaan
+### Pin Reference Nodemcu :
+Untuk penggunaan pembacaan pin Cek tabel berikut ini :
 
-## Server Requirements
+| Nama         | Pin Output | Pin Input  |
+| -----------  |:--:|:--:|
+| LAMPU 1      | D0 | D1 |
+| LAMPU 2      | D3 | D2 |
+| LAMPU 3      | D4 | D6 |
+| LAMPU 3      | D5 | D7 |
+
+- **Pin Output** Digunakan untuk menggerakan beban seperti relay yang dihubungkan dengan beban.
+- **Pin Input** Digunakan untuk Membaca status realtime dari 2 saklar yang berbeda.
+  
+Pemasangan tidak boleh terbalik agar status realtime tidak salah
+
+### Libraries :
+- **Arduino JSON** [Docs](https://arduinojson.org/v6/doc/)
+
+## API Collect HTTP GET JSON
+```Json
+{
+  "data": [
+    {
+      "pin": 16,
+      "grup": "A",
+      "status": "1",
+      "kondisi": "1",
+      "created_at": "2023-06-12T13:30:34.000000Z",
+      "updated_at": "2023-08-13T11:59:05.000000Z",
+      "updated_by": 1
+    },
+    {
+      "id": 1,
+      "name": "R. Kabid",
+      "pin": 16,
+      "grup": "A",
+      "status": "1",
+      "kondisi": "1",
+      "created_at": "2023-06-12T13:30:34.000000Z",
+      "updated_at": "2023-08-13T11:59:05.000000Z",
+      "updated_by": 1
+    },{
+      "id": 1,
+      "name": "R. Kabid",
+      "pin": 16,
+      "grup": "A",
+      "status": "1",
+      "kondisi": "1",
+      "created_at": "2023-06-12T13:30:34.000000Z",
+      "updated_at": "2023-08-13T11:59:05.000000Z",
+      "updated_by": 1
+    },{
+      "id": 1,
+      "name": "R. Kabid",
+      "pin": 16,
+      "grup": "A",
+      "status": "1",
+      "kondisi": "1",
+      "created_at": "2023-06-12T13:30:34.000000Z",
+      "updated_at": "2023-08-13T11:59:05.000000Z",
+      "updated_by": 1
+    }]
+    }
+```
+
+## API Collect HTTP POST JSON
+```Json
+{
+  "data":[{
+    "pin" : "pin input",
+    "kondisi " : 1,
+    }]
+}
+```
 
 
-PHP version 5.6 or newer is recommended.
 
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
 
