@@ -1,7 +1,7 @@
 <p align="center"><a href="https://nandateknik.my.id" target="_blank"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEjwJW1smTUSgRIsdJLF7v4Pbwu3TwFTdFwpRkWTLcdu-esrY-MbY54D8YC5I-IPGiKzb5war06-wlcRr2HAfhId2_mHeQXUDc-B046j4tRZAv04Z-DcbxaVmEwNu9uBeG81M1zQO63du49VSIx2RzPjWtqB8eWYU5jH1F5tT8eJ6ZMOzpcEtcWw5ycz=s548" width="400"></a></p>
 
 <p align="center">
-<a href="#"><img src="https://img.shields.io/badge/PRODUCTION V.1-%3CCOLOR%3E.svg"></a>
+<a href="#"><img src="https://img.shields.io/badge/PRODUCTION-V.1-%3CCOLOR%3E.svg"></a>
 <a href="#"><img src="https://img.shields.io/badge/BY-NANDADEV-blue"></a>
 </p>
 
