@@ -1,7 +1,7 @@
 /*
- * Project IOT Dinas Komunkasi Informasi dan persandian Banyuwangi
- * Nanda Teknik Banyuwangi
- * www.nandateknik.com
+ *  ESP8266 JSON Decode of server response
+ *  -Manoj R. Thkuar
+ *  https://circuits4you.com
  */
 
 #include <ESP8266WiFi.h>
@@ -12,21 +12,15 @@
 
 const char* wifiName = "KOMINFO";
 const char* wifiPass = "banyuwangiku";
-String host = "http://backend.banyuwangikab.go.id/public/api/lampu/";
-String group = "A";
+String host = "http://192.168.1.7/kominfoiot/public/api/ac/";
+String group = "Z";
 
-static const uint8_t PIN_D0 = 16;
-static const uint8_t PIN_D1 = 5;
-static const uint8_t PIN_D2 = 4;
-static const uint8_t PIN_D3 = 0;
-static const uint8_t PIN_D4 = 2;
 static const uint8_t PIN_D5 = 14;
 static const uint8_t PIN_D6 = 12;
 static const uint8_t PIN_D7 = 13;
 
-uint8_t pinOut[ARRAYLEN] = {PIN_D0,PIN_D3,PIN_D4,PIN_D5};
-uint8_t pinIn[ARRAYLEN] = {PIN_D1,PIN_D2,PIN_D6,PIN_D7};
-int pinStatus[ARRAYLEN] = {0,0,0,0};
+int pinStatus = 0;
+int pinStatus2 = 0;
 
 HTTPClient http;    //Declare object of class HTTPClient
 WiFiClient client;
@@ -50,29 +44,25 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());   //You can get IP address assigned to ESP
   
-  pinMode(PIN_D0, OUTPUT);
-  pinMode(PIN_D1, INPUT);
-  pinMode(PIN_D2, INPUT);
-  pinMode(PIN_D3, OUTPUT);
-  pinMode(PIN_D4, OUTPUT);
   pinMode(PIN_D5, OUTPUT);
-  pinMode(PIN_D6, INPUT);
+  pinMode(PIN_D6, OUTPUT);
   pinMode(PIN_D7, INPUT);
 
 }
 
-void get(){
+void getAc(){
 
-  String serverPost = host + "get-group/" + group;
+   
+  String serverGet = host + "get/" + group;
 
   if(WiFi.status() == WL_CONNECTED){
-    
+ 
     // digitalWrite(LED_BUILTIN, LOW);
     Serial.print("Request Link: ");
-    Serial.println(serverPost);
+    Serial.println(serverGet);
     
     http.useHTTP10(true);
-    http.begin(client,serverPost);
+    http.begin(client,serverGet);
     http.GET();
 
     String payload = http.getString();
@@ -83,41 +73,36 @@ void get(){
     deserializeJson(doc, json);
     // int status = doc["data"]["status"];
 
-    for( int i = 0; i <= 4; i++){
-      int status = doc["data"][i]["status"];
-      int pin = doc["data"][i]["pin"];
-      Serial.println(status);
-      Serial.println(pin);
-      if(status == 1) {
-        digitalWrite(pin, HIGH);
-        Serial.print("LAMPU HIDUP :");
-        Serial.print(pin);
-        Serial.println ("STATUS SEKARANG");
+    int status = doc["data"]["status"]; // 1
+    String status2 = doc["data"][0]["status"];
+    Serial.print(status2);
+
+      if(status == 1 && pinStatus2 != 1 ) {
+        digitalWrite(PIN_D5, HIGH);
+        delay(1000);
+        digitalWrite(PIN_D6, HIGH);
+        pinStatus2 = 1;
         Serial.println(status);
-      } else if(status == 2) {
-        digitalWrite(pin, LOW);
-        Serial.print("LAMPU MATI :");
-        Serial.print(pin);
-        Serial.println ("STATUS SEKARANG");
-        Serial.println(status);
+      } else if(status == 2 && pinStatus2 != 2) {
+        digitalWrite(PIN_D6, LOW);
+        delay(1000);
+        digitalWrite(PIN_D5, LOW);
+        pinStatus2 = 2;
       }
-    }
 
     http.end();  //Close connection
     }
 
 }
 
-void postKondisi(int kondisi, int array){
+void postKondisi(int kondisi){
   
   String serverPost = host + "update-kondisi/" + group;
 
   char json2[2000];        
   DynamicJsonDocument doc(1024); 
-  JsonArray data = doc.createNestedArray("data");
-  JsonObject data_0 = data.createNestedObject();
-  data_0["pin"] = pinIn[array];
-  data_0["kondisi"] = kondisi;
+  JsonObject data = doc.createNestedObject("data");
+  data["kondisi"] = kondisi;
 
   serializeJson(doc, json2);
   Serial.println(json2);
@@ -141,10 +126,10 @@ void postKondisi(int kondisi, int array){
     Serial.println(payload);
     Serial.println(">>");
     Serial.print("Pin Arduino : ");
-    Serial.println(pinIn[array]);
+    Serial.println(PIN_D7);
     Serial.print("Array Kondisi : ");
     Serial.println(kondisi);
-    pinStatus[array] = kondisi;
+    pinStatus = kondisi;
     }
     } else {
       Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
@@ -154,17 +139,15 @@ void postKondisi(int kondisi, int array){
 }
 
 void loop() {
-  //Cek Status Kondisi Lampu saat ini
-   for(int i = 0; i < ARRAYLEN; i++ )
-    {
-      if(digitalRead(pinIn[i]) == HIGH && pinStatus[i] != 2){
-         postKondisi(2,i);
-         delay(2000);
-      } else if(digitalRead(pinIn[i]) == LOW && pinStatus[i] != 1){
-         postKondisi(1,i);
-         delay(2000);
-      }
-    }
-  get();
+  
+  if(digitalRead(PIN_D7) == HIGH && pinStatus != 2){
+      postKondisi(2);
+      delay(2000);
+  } else if(digitalRead(PIN_D7) == LOW && pinStatus != 1){
+      postKondisi(1);
+      delay(2000);
+  }
+
+  getAc();
   delay(7000);
 }
