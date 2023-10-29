@@ -1,7 +1,7 @@
 /*
- *  ESP8266 JSON Decode of server response
- *  -Manoj R. Thkuar
- *  https://circuits4you.com
+ * Project IOT Dinas Komunkasi Informasi dan persandian Banyuwangi
+ * Nanda Teknik Banyuwangi
+ * www.nandateknik.com
  */
 
 #include <ESP8266WiFi.h>
@@ -11,8 +11,8 @@
 #define ARRAYLEN 4
 
 const char* wifiName = "KOMINFO";
-const char* wifiPass = "banyuwangi2023";
-String host = "http://be.banyuwangikab.go.id/public/api/lampu/";
+const char* wifiPass = "banyuwangiku";
+String host = "http://backend.banyuwangikab.go.id/public/api/lampu/";
 String group = "A";
 
 static const uint8_t PIN_D0 = 16;
@@ -61,24 +61,27 @@ void setup() {
 
 }
 
-void getLampu(){
+void get(){
 
-  String serverGet = host + "get-group/" + group;
+  String serverPost = host + "get-group/" + group;
 
   if(WiFi.status() == WL_CONNECTED){
- 
+    
+    // digitalWrite(LED_BUILTIN, LOW);
     Serial.print("Request Link: ");
-    Serial.println(serverGet);
+    Serial.println(serverPost);
     
     http.useHTTP10(true);
-    http.begin(client,host);
+    http.begin(client,serverPost);
     http.GET();
+
     String payload = http.getString();
 
     char json[2000];        
     payload.toCharArray(json, 2000);
     DynamicJsonDocument doc(2000);
     deserializeJson(doc, json);
+    // int status = doc["data"]["status"];
 
     for( int i = 0; i <= 4; i++){
       int status = doc["data"][i]["status"];
@@ -87,18 +90,19 @@ void getLampu(){
       Serial.println(pin);
       if(status == 1) {
         digitalWrite(pin, HIGH);
-        Serial.print("LAMPU HIDUP : ");
-        Serial.println(pin);
-        Serial.print("STATUS SEKARANG : ");
+        Serial.print("LAMPU HIDUP :");
+        Serial.print(pin);
+        Serial.println ("STATUS SEKARANG");
         Serial.println(status);
       } else if(status == 2) {
         digitalWrite(pin, LOW);
-        Serial.print("LAMPU MATI : ");
-        Serial.println(pin);
-        Serial.print ("STATUS SEKARANG : ");
+        Serial.print("LAMPU MATI :");
+        Serial.print(pin);
+        Serial.println ("STATUS SEKARANG");
         Serial.println(status);
       }
     }
+
     http.end();  //Close connection
     }
 
@@ -106,7 +110,7 @@ void getLampu(){
 
 void postKondisi(int kondisi, int array){
   
-  String serverPost = host + "get-group/" + group;
+  String serverPost = host + "update-kondisi/" + group;
 
   char json2[2000];        
   DynamicJsonDocument doc(1024); 
@@ -161,6 +165,6 @@ void loop() {
          delay(2000);
       }
     }
-  getLampu();
+  get();
   delay(7000);
 }
