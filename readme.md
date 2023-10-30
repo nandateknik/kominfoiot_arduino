@@ -35,7 +35,7 @@ const char* wifiPass = "banyuwangiku";
 
 
 ### Cara instalasi AC Controller
-
+![alt text](https://github.com/nandateknik/kominfoiot_arduino/blob/master/img/accontroller.png?raw=true)
 - NodeMCU pin D5 dan D6 dihubungkan dengan relay 5volt
 - out dari relay 5volt dihubungkan ke tombol on off module pada ac
 - Untuk relay status menggunakan relay 220 volt kemudian pin NO dihubungkan ke pin D7
@@ -52,7 +52,8 @@ Sebelum melakukan instalasi hardware, ada beberapa yang harus diperhatikan. Untu
 
 - **Pin Output** Digunakan untuk menyalakan beban seperti relay yang dihubungkan dengan beban.
 - **Pin Input** Digunakan untuk Membaca status realtime dari 2 saklar yang berbeda.
-  
+
+![alt text](https://github.com/nandateknik/kominfoiot_arduino/blob/master/img/lampucontroller.png?raw=true)
 Pemasangan tidak boleh terbalik agar status realtime tidak salah Contoh :
 - Output D0 digunakan untuk menyalakan ruangan kabid, untuk pembacaan status realtime dari D0 adalaha pin D1
 - untuk pembacaan realtime bisa menggunakan ssr pada arduino.
