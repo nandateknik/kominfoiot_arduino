@@ -141,7 +141,7 @@ Didatabase di setting pin, group dan kondisi.
 ```Json
 {
   "data":[{
-    "pin" : "pin input",
+    "pin" : "PIN_D2",
     "kondisi " : 1,
     }]
 }
