@@ -5,6 +5,7 @@
 <a href="#"><img src="https://img.shields.io/badge/BY-NANDADEV-blue"></a>
 </p>
 
+
 # NODEMCU ESP8266 ARDUINO
 
 
@@ -14,6 +15,9 @@ Sebuah project yang dikerjakan untuk kebutuhan iot di lingkungan Dinas Kominfo d
 - **kONTROL LAMPU** Digunakan untuk controller lampu.
 - **KONTROL AC** Digunakan untuk controller AC.
 - **KONTROL SENSOR** Digunakan untuk controller SENSOR.
+
+### Libraries :
+- **Arduino JSON** [Docs](https://arduinojson.org/v6/doc/)
 
 ### Pin Reference Nodemcu :
 
@@ -51,7 +55,7 @@ Sebelum melakukan instalasi hardware, ada beberapa yang harus diperhatikan. Untu
 | LAMPU 1      | D0 | D1 |
 | LAMPU 2      | D3 | D2 |
 | LAMPU 3      | D4 | D6 |
-| LAMPU 3      | D5 | D7 |
+| LAMPU 4      | D5 | D7 |
 
 - **Pin Output** Digunakan untuk menyalakan beban seperti relay yang dihubungkan dengan beban.
 - **Pin Input** Digunakan untuk Membaca status realtime dari 2 saklar yang berbeda.
@@ -61,8 +65,30 @@ Pemasangan tidak boleh terbalik agar status realtime tidak salah Contoh :
 - Output D0 digunakan untuk menyalakan ruangan kabid, untuk pembacaan status realtime dari D0 adalaha pin D1
 - untuk pembacaan realtime bisa menggunakan ssr pada arduino.
 
-### Libraries :
-- **Arduino JSON** [Docs](https://arduinojson.org/v6/doc/)
+### Controller sensor
+Berikut ini penggunaan controller sensor pada nodemcu.
+
+| Nama         | Pin Input  |
+| -----------  |:--:|
+| SENSOR 1      | D1 |
+| SENSOR 2      | D2 |
+| SENSOR 3      | D5 |
+| SENSOR 4      | D6 |
+| SENSOR 5      | D7 |
+
+penggunaan controler sensor bisa menggunakan salah satu pin nodemcu. untuk integrasi tinggal menyesuaikan serial number dan pin yang digunakan contohnya kita menggunakan pin D2 jadi api collectnya :
+
+## API Collect HTTP POST JSON SENSOR
+```Json
+{
+  "data":[{
+    "pin" : "pin input",
+    "kondisi " : 1,
+    }]
+}
+```
+
+Didatabase di setting pin, group dan kondisi.
 
 ## API Collect HTTP GET JSON CONTROLLER LAMPU
 ```Json
