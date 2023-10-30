@@ -26,12 +26,15 @@ Berikut ini adalah cara konfigurasi nodemcu esp8266 code untuk koneksi ke wifi.
 ```Ino
 const char* wifiName = "KOMINFO";
 const char* wifiPass = "banyuwangiku";
-
+String host = "http://backend.banyuwangikab.go.id/public/api/lampu/";
+String group = "A";
 ```
 
 ### Penjelasan Code :
 - **wifiName :** SSID wifi yang akan digunakan untuk koneksi ke internet.
 - **wifiPass :** Password wifi yang akan digunakan untuk koneksi ke internet.
+- **host :** url api untuk dashboard.
+- **group :** No Unik tiap-tiap hardware.
 
 
 ### Cara instalasi AC Controller
@@ -61,7 +64,7 @@ Pemasangan tidak boleh terbalik agar status realtime tidak salah Contoh :
 ### Libraries :
 - **Arduino JSON** [Docs](https://arduinojson.org/v6/doc/)
 
-## API Collect HTTP GET JSON
+## API Collect HTTP GET JSON CONTROLLER LAMPU
 ```Json
 {
   "data": [
@@ -108,13 +111,31 @@ Pemasangan tidak boleh terbalik agar status realtime tidak salah Contoh :
     }
 ```
 
-## API Collect HTTP POST JSON
+## API Collect HTTP POST JSON CONTROLLER LAMPU
 ```Json
 {
   "data":[{
     "pin" : "pin input",
     "kondisi " : 1,
     }]
+}
+```
+
+
+## API Collect HTTP GET JSON CONTROLLER AC
+```Json
+{
+  "data":{
+    "kondisi " : 1,
+    }
+}
+```
+## API Collect HTTP POST JSON CONTROLLER AC
+```Json
+{
+  "data":{
+    "status " : 1,
+    }
 }
 ```
 
